@@ -27,19 +27,31 @@ defmodule Day3Test do
     matrix = Day3.break_input_to_matrix(arr)
     assert Day3.retrieve_coordinate(matrix, {1, 1}) == "a"
     assert Day3.retrieve_coordinate(matrix, {2, 2}) == "2"
+    assert Day3.retrieve_coordinate(matrix, {"2", "2"}) == "2"
   end
 
   test "it assembles a list of coordinate to check collision on" do
-    assert Day3.coordinates_to_check_collision({"1", "1"}) == [
+    assert Day3.coordinates_to_check_collision({1, 1}) == [
              {0, 0},
              {0, 1},
              {0, 2},
              {1, 0},
-             {1, 1},
              {1, 2},
              {2, 0},
              {2, 1},
              {2, 2}
            ]
+  end
+
+  test "it can compute where there are things around a 'symbol'" do
+    arr = [
+      "..1",
+      ".#2",
+      "3.."
+    ]
+
+    matrix = Day3.break_input_to_matrix(arr)
+    IO.inspect(matrix)
+    assert Day3.find_collisions_from_coordinate(matrix, {2, 2}) == [{1, 1}, {3, 2}, {3, 3}]
   end
 end
