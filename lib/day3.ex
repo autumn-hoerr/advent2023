@@ -17,7 +17,7 @@ defmodule Day3 do
   end
 
   # for now, I'm going to assume that if x is a string, y is also a string.
-  def retrieve_coordinate(list, {x, y}) when is_bitstring(x) do
+  def retrieve_coordinate(list, {x, y}) when is_binary(x) do
     retrieve_coordinate(list, {String.to_integer(x), String.to_integer(y)})
   end
 
@@ -30,16 +30,20 @@ defmodule Day3 do
     |> Enum.at(x - 1)
   end
 
-  def coordinate_to_check_collision({x, y}) when is_bitstring(x) do
+  def coordinate_to_check_collision({x, y}) when is_binary(x) do
     x = String.to_integer(x)
     y = String.to_integer(y)
     coordinate_to_check_collision({x, y})
   end
 
+  @distance_to_search 1
   def coordinates_to_check_collision({x, y}) when is_integer(x) do
-    x_coords = [x - 1, x, x + 1]
-    y_coords = [y - 1, y, y + 1]
+    range_to_search = Enum.to_list((@distance_to_search * -1)..@distance_to_search)
 
+    x_coords = Enum.map(range_to_search, fn r -> x + r end)
+    y_coords = Enum.map(range_to_search, fn r -> y + r end)
+
+    # filter out the original coordinates. We should know that's a symbol already.
     for lx <- x_coords, ly <- y_coords, {x, y} != {lx, ly}, do: {lx, ly}
   end
 

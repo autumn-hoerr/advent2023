@@ -51,7 +51,6 @@ defmodule Day3Test do
     ]
 
     matrix = Day3.break_input_to_matrix(arr)
-    IO.inspect(matrix)
     assert Day3.find_collisions_from_coordinate(matrix, {2, 2}) == [{1, 1}, {3, 2}, {3, 3}]
   end
 end
